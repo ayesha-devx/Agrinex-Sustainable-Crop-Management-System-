@@ -5,6 +5,7 @@ requests
 pandas
 numpy
 scikit-learn
+category-encoders
 pillow
 torch
 torchvision
