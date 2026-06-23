@@ -1,0 +1,15 @@
+# Ignore the virtual environment folder
+prathmesh/
+notebooks/
+venv/
+env/
+
+# Ignore Python cache and system files
+__pycache__/
+*.pyc
+.DS_Store
+
+# Ignore Node.js modules (for your frontend)
+node_modules/
+dist/
+build/

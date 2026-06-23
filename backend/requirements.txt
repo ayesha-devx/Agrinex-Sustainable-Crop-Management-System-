@@ -1,0 +1,11 @@
+flask
+flask-cors
+requests
+pandas
+numpy
+scikit-learn
+pillow
+--index-url https://download.pytorch.org/whl/cpu
+torch
+torchvision
+gunicorn
