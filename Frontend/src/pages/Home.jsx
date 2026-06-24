@@ -116,23 +116,7 @@ const Home = () => {
                 <p className="lead mb-3 hero-desc" style={{ color: '#374151', fontSize: '1.4rem', maxWidth: '750px', lineHeight: 1.6, fontWeight: '500' }}>
                   Transform your farming with production-grade insights. <br className="d-none d-md-block" /> Precision crop prediction and instant disease detection for the modern sustainable farm.
                 </p>
-                <div className="d-flex flex-wrap gap-3 gap-md-4 pt-2 hero-features" style={{ color: '#14532d', fontWeight: '700', fontSize: '1.1rem' }}>
-                  {[
-                    { text: 'Nutrient Analysis' },
-                    { text: 'Crop Prediction' },
-                    { text: 'Fertilizer Advice' },
-                    { text: 'Disease Detection' }
-                  ].map((item, idx) => (
-                    <div key={idx} className="d-flex align-items-center position-relative group">
-                      <div className="me-2 d-flex align-items-center justify-content-center rounded-circle" style={{ 
-                        width: '24px', height: '24px', background: 'rgba(22, 163, 74, 0.1)', border: '1px solid rgba(22, 163, 74, 0.3)' 
-                      }}>
-                        <CheckCircle2 size={16} className="text-success" />
-                      </div>
-                      <span style={{ letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>{item.text}</span>
-                    </div>
-                  ))}
-                </div>
+
 
               </motion.div>
             </div>
