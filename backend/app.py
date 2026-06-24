@@ -9,18 +9,14 @@ from flask_cors import CORS
 # Ensure these .py files are in the same folder as app.py
 import model as crop_model_script
 import fertilizer as fertilizer_script
-import disease as disease_script
+# disease is imported lazily inside the route handler to avoid server startup overhead
 from NPKEstimatorModule import NPKEstimator
 
 app = Flask(__name__)
 CORS(app)  # This allows React to talk to this Flask app
 
 # --- CONFIGURATION ---
-# We create a temporary folder for images uploaded for disease detection
-UPLOAD_FOLDER = 'uploads'
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+# Upload folder is dynamically handled using tempfile.gettempdir() in routes to support read-only filesystems
 
 # --- API ROUTES ---
 
@@ -81,11 +77,18 @@ def predict_disease():
         return jsonify({'error': 'No file selected'}), 400
 
     if file:
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-        file.save(filepath)
-        
         try:
-            # Call function from disease.py
+            import tempfile
+            # Use system temp directory for uploads (guaranteed writable on all host environments)
+            upload_dir = os.path.join(tempfile.gettempdir(), 'agrinex_uploads')
+            if not os.path.exists(upload_dir):
+                os.makedirs(upload_dir, exist_ok=True)
+                
+            filepath = os.path.join(upload_dir, file.filename)
+            file.save(filepath)
+            
+            # Lazy import to avoid loading heavy torch/torchvision models at server startup
+            import disease as disease_script
             prediction = disease_script.disease_prediction(filepath)
             
             # Remove file after prediction to save space
@@ -94,6 +97,7 @@ def predict_disease():
                 
             return jsonify({'prediction': prediction})
         except Exception as e:
+            print(f"Error in Disease Prediction: {e}")
             return jsonify({'error': str(e)}), 500
 
 # --- 4. NUTRIENT ANALYSIS + WEATHER FORECAST ---
