@@ -1,52 +1,19 @@
-import torch
-import torch.nn as nn
 import numpy as np
-from torchvision import transforms
 from PIL import Image
 import os
+import onnxruntime as ort
 
-# --- 1. DEFINE THE MODEL STRUCTURE (ResNet9) ---
-def conv_block(in_channels, out_channels, pool=False):
-    layers = [
-        nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1),
-        nn.BatchNorm2d(out_channels),
-        nn.ReLU(inplace=True)
-    ]
-    if pool:
-        layers.append(nn.MaxPool2d(2))
-    return nn.Sequential(*layers)
+# --- 1. LOAD THE ONNX MODEL ---
+base_dir = os.path.dirname(os.path.abspath(__file__))
+model_path = os.path.join(base_dir, 'models', 'plant_disease_model.onnx')
 
-class ResNet9(nn.Module):
-    def __init__(self, in_channels, num_classes):
-        super().__init__()
-        
-        # 1. Convolutional Layers
-        self.conv1 = conv_block(in_channels, 64)
-        self.conv2 = conv_block(64, 128, pool=True) 
-        self.res1 = nn.Sequential(conv_block(128, 128), conv_block(128, 128))
-        
-        self.conv3 = conv_block(128, 256, pool=True)
-        self.conv4 = conv_block(256, 512, pool=True) 
-        self.res2 = nn.Sequential(conv_block(512, 512), conv_block(512, 512))
-        
-        # 2. Classifier (The Fix is Here!)
-        self.classifier = nn.Sequential(
-            # This layer forces the output to be 1x1 size (512 features), 
-            # fixing the "45056" shape error.
-            nn.AdaptiveMaxPool2d((1, 1)), 
-            nn.Flatten(),
-            nn.Linear(512, num_classes)
-        )
-
-    def forward(self, x):
-        out = self.conv1(x)
-        out = self.conv2(out)
-        out = self.res1(out) + out
-        out = self.conv3(out)
-        out = self.conv4(out)
-        out = self.res2(out) + out
-        out = self.classifier(out)
-        return out
+try:
+    session = ort.InferenceSession(model_path)
+    input_name = session.get_inputs()[0].name
+    output_name = session.get_outputs()[0].name
+except Exception as e:
+    print(f"ERROR loading ONNX model: {e}")
+    session = None
 
 # --- 2. DEFINE THE CLASSES LIST ---
 classes = [
@@ -64,30 +31,6 @@ classes = [
     'Tomato___Target_Spot', 'Tomato___Tomato_Yellow_Leaf_Curl_Virus', 'Tomato___Tomato_mosaic_virus',
     'Tomato___healthy'
 ]
-
-# --- 3. LOAD THE MODEL SAFELY ---
-base_dir = os.path.dirname(os.path.abspath(__file__))
-model_path = os.path.join(base_dir, 'models', 'plant_disease_model.pth')
-
-plant_disease_model = ResNet9(3, 38)
-
-try:
-    # We use strict=False to ignore minor mismatches if necessary, 
-    # but check your terminal for "Missing key" warnings!
-    plant_disease_model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')), strict=False)
-    plant_disease_model.eval()
-except FileNotFoundError:
-    print(f"ERROR: Model file not found at {model_path}")
-except Exception as e:
-    print(f"ERROR loading model: {e}")
-
-# --- 4. PREDICTION FUNCTION ---
-def predict_image(img, model):
-    xb = img.unsqueeze(0)
-    yb = model(xb)
-    _, preds = torch.max(yb, dim=1)
-    return preds[0].item()
-# ... (Keep your imports, ResNet9 class, and classes list at the top) ...
 
 # PASTE THIS HUGE DICTIONARY HERE
 disease_dic = {
@@ -390,18 +333,33 @@ disease_dic = {
         <br/>4. Wash hands with soap and water before and during the handling of plants to reduce potential spread between plants."""
 }
 def disease_prediction(test_image):
-    # Fix: Ensure resize creates a Square image (256x256)
-    transform = transforms.Compose([
-        transforms.Resize((256, 256)), 
-        transforms.ToTensor(),
-    ])
-    
-    image = Image.open(test_image).convert('RGB')
-    img_t = transform(image)
-    
-    prediction_index = predict_image(img_t, plant_disease_model)
-    predicted_class_name = classes[prediction_index]
-    
-    # Return the details from the dictionary. 
-    # If not found, fallback to just showing the name.
-    return disease_dic.get(predicted_class_name, f"Detected: {predicted_class_name}")
+    if session is None:
+        return "Error: ONNX model is not loaded on the backend."
+        
+    try:
+        # Preprocess using PIL and numpy (replaces torchvision transforms)
+        image = Image.open(test_image).convert('RGB')
+        image = image.resize((256, 256))
+        
+        # Convert to numpy array and normalize [0, 1]
+        img_array = np.array(image, dtype=np.float32) / 255.0
+        
+        # Transpose to CHW shape: (3, 256, 256)
+        img_array = np.transpose(img_array, (2, 0, 1))
+        
+        # Add batch dimension: (1, 3, 256, 256)
+        img_array = np.expand_dims(img_array, axis=0)
+        
+        # Run inference
+        outputs = session.run([output_name], {input_name: img_array})
+        
+        # Get argmax (predicted class index)
+        prediction_index = np.argmax(outputs[0], axis=1)[0]
+        predicted_class_name = classes[prediction_index]
+        
+        # Return the details from the dictionary. 
+        # If not found, fallback to just showing the name.
+        return disease_dic.get(predicted_class_name, f"Detected: {predicted_class_name}")
+    except Exception as e:
+        print(f"Error in ONNX disease prediction: {e}")
+        return f"Error executing prediction: {str(e)}"
