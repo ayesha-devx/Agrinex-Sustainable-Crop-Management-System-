@@ -461,6 +461,9 @@ const Home = () => {
           .hero-features {
             justify-content: center !important;
           }
+          .float-animation {
+            margin-top: -40px !important;
+          }
         }
         
         @media (min-width: 992px) {
