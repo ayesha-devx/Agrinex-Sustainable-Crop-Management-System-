@@ -99,12 +99,12 @@ const Home = () => {
                   color: '#064e3b',
                   lineHeight: 1.1,
                   letterSpacing: '-0.04em',
-                  fontSize: 'clamp(2.5rem, 6vw, 5.5rem)',
+                  fontSize: 'clamp(2.4rem, 8vw, 6rem)',
                   display: 'flex',
                   flexDirection: 'column'
                 }}>
-                  <span>Grow <span className="animated-gradient-text">Smarter.</span></span>
-                  <span>Harvest <span className="animated-gradient-text">Superior.</span></span>
+                  <span style={{ whiteSpace: 'nowrap' }}>Grow <span className="animated-gradient-text">Smarter.</span></span>
+                  <span style={{ whiteSpace: 'nowrap' }}>Harvest <span className="animated-gradient-text">Superior.</span></span>
                 </h1>
 
                 <p className="lead mb-3 hero-desc" style={{ color: '#374151', fontSize: '1.4rem', maxWidth: '750px', lineHeight: 1.6, fontWeight: '500' }}>
@@ -435,6 +435,7 @@ const Home = () => {
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           animation: shimmer 4s linear infinite;
+          font-weight: 800;
         }
         @keyframes shimmer {
           0% { background-position: 0% 0; }
