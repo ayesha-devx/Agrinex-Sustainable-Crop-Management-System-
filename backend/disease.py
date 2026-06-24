@@ -334,15 +334,41 @@ disease_dic = {
 }
 def disease_prediction(test_image):
     if session is None:
-        return "Error: ONNX model is not loaded on the backend."
+        raise ValueError("Error: ONNX model is not loaded on the backend.")
         
     try:
-        # Preprocess using PIL and numpy (replaces torchvision transforms)
+        # Open the image
         image = Image.open(test_image).convert('RGB')
-        image = image.resize((256, 256))
+    except Exception as e:
+        raise ValueError(f"Unable to read the image file: {e}")
+
+    # Color validation to check if it's a valid plant leaf image
+    pixels = np.array(image)
+    r = pixels[:, :, 0].astype(int)
+    g = pixels[:, :, 1].astype(int)
+    b = pixels[:, :, 2].astype(int)
+    
+    # Green pixels mask
+    green_mask = (g > r + 5) & (g > b + 5) & (g > 30)
+    # Yellow/brown/earth pixels mask (yellow is red + green, with low blue)
+    yellow_brown_mask = (r > 40) & (g > 40) & (b < r - 15) & (b < g - 15)
+    
+    plant_pixels = np.sum(green_mask | yellow_brown_mask)
+    total_pixels = pixels.shape[0] * pixels.shape[1]
+    plant_ratio = plant_pixels / total_pixels
+    
+    print(f"📊 Plant color ratio: {plant_ratio:.4f}")
+    
+    # If plant-like colors are less than 8% of the image, we classify it as non-plant
+    if plant_ratio < 0.08:
+        raise ValueError("Invalid image. The uploaded image does not appear to contain a plant leaf. Please upload a clear photo of a crop leaf.")
+        
+    try:
+        # Preprocess using PIL and numpy
+        resized_image = image.resize((256, 256))
         
         # Convert to numpy array and normalize [0, 1]
-        img_array = np.array(image, dtype=np.float32) / 255.0
+        img_array = np.array(resized_image, dtype=np.float32) / 255.0
         
         # Transpose to CHW shape: (3, 256, 256)
         img_array = np.transpose(img_array, (2, 0, 1))
@@ -353,6 +379,18 @@ def disease_prediction(test_image):
         # Run inference
         outputs = session.run([output_name], {input_name: img_array})
         
+        # Softmax confidence score calculation
+        logits = outputs[0][0]
+        exp_logits = np.exp(logits - np.max(logits))
+        probabilities = exp_logits / np.sum(exp_logits)
+        confidence = float(np.max(probabilities))
+        
+        print(f"🎯 Prediction confidence: {confidence:.4f}")
+        
+        # If the confidence is extremely low, reject it
+        if confidence < 0.35:
+            raise ValueError("Unable to confidently recognize plant disease. Please make sure the leaf is clearly visible and centered in the photo.")
+            
         # Get argmax (predicted class index)
         prediction_index = np.argmax(outputs[0], axis=1)[0]
         predicted_class_name = classes[prediction_index]
@@ -360,6 +398,8 @@ def disease_prediction(test_image):
         # Return the details from the dictionary. 
         # If not found, fallback to just showing the name.
         return disease_dic.get(predicted_class_name, f"Detected: {predicted_class_name}")
+    except ValueError as ve:
+        raise ve
     except Exception as e:
         print(f"Error in ONNX disease prediction: {e}")
-        return f"Error executing prediction: {str(e)}"
+        raise ValueError(f"Error executing prediction: {str(e)}")

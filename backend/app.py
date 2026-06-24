@@ -96,8 +96,21 @@ def predict_disease():
                 os.remove(filepath)
                 
             return jsonify({'prediction': prediction})
+        except ValueError as ve:
+            print(f"Validation error in Disease Prediction: {ve}")
+            if 'filepath' in locals() and os.path.exists(filepath):
+                try:
+                    os.remove(filepath)
+                except Exception:
+                    pass
+            return jsonify({'error': str(ve)}), 400
         except Exception as e:
             print(f"Error in Disease Prediction: {e}")
+            if 'filepath' in locals() and os.path.exists(filepath):
+                try:
+                    os.remove(filepath)
+                except Exception:
+                    pass
             return jsonify({'error': str(e)}), 500
 
 # --- 4. NUTRIENT ANALYSIS + WEATHER FORECAST ---
