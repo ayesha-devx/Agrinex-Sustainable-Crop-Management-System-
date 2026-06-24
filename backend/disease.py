@@ -361,7 +361,7 @@ def disease_prediction(test_image):
     
     # If plant-like colors are less than 8% of the image, we classify it as non-plant
     if plant_ratio < 0.08:
-        raise ValueError("Invalid image. The uploaded image does not appear to contain a plant leaf. Please upload a clear photo of a crop leaf.")
+        raise ValueError("Invalid Image: We couldn't detect a plant leaf in the uploaded photo. Please make sure you upload a clear, close-up picture of the affected crop leaf.")
         
     try:
         # Preprocess using PIL and numpy
@@ -389,7 +389,7 @@ def disease_prediction(test_image):
         
         # If the confidence is extremely low, reject it
         if confidence < 0.35:
-            raise ValueError("Unable to confidently recognize plant disease. Please make sure the leaf is clearly visible and centered in the photo.")
+            raise ValueError("Analysis Uncertain: We are unable to reliably identify the crop or disease from this photo. Please ensure the leaf is centered, well-lit, and clearly visible.")
             
         # Get argmax (predicted class index)
         prediction_index = np.argmax(outputs[0], axis=1)[0]
