@@ -93,13 +93,7 @@ const Home = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
               >
-                <div className="d-inline-flex align-items-center px-4 py-2 mb-4 rounded-pill shadow-sm" style={{ 
-                  background: '#ffffff', 
-                  border: '1px solid rgba(22, 163, 74, 0.5)',
-                  boxShadow: '0 4px 15px rgba(22, 163, 74, 0.05)'
-                }}>
-                  <span className="text-success font-weight-bold" style={{ fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#14532d' }}>🌿 Intelligent Farming Solutions</span>
-                </div>
+
 
                 <h1 className="font-weight-bold mb-4 hero-title" style={{
                   color: '#064e3b',
