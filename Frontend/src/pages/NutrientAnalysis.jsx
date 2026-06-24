@@ -163,7 +163,7 @@ const NutrientAnalysis = () => {
         </div>
 
         {/* --- MODERN DARK HEADER --- */}
-        <header style={{ 
+        <header className="dark-header" style={{ 
           background: 'linear-gradient(135deg, #064e3b 0%, #022c22 100%)', 
           padding: '120px 0 80px',
           textAlign: 'center',
@@ -178,8 +178,8 @@ const NutrientAnalysis = () => {
               transition={{ duration: 0.8 }}
               className="container position-relative z-index-2"
             >
-                <h1 className="display-3 font-weight-bold mb-3 text-white">Soil Nutrient & Weather Guide</h1>
-                <p className="lead" style={{ maxWidth: '800px', margin: '0 auto', fontSize: '1.4rem', lineHeight: '1.6', color: 'white' }}>
+                <h1 className="display-3 font-weight-bold mb-3 text-white header-title">Soil Nutrient & Weather Guide</h1>
+                <p className="lead header-desc" style={{ maxWidth: '800px', margin: '0 auto', fontSize: '1.4rem', lineHeight: '1.6', color: 'white' }}>
                     Get the exact <b style={{ color: 'white' }}>NPK (Nitrogen, Phosphorus, Potassium)</b> balance your crop needs and track real-time <b style={{ color: 'white' }}>weather forecasts</b> to plan your farming schedule with precision.
                 </p>
             </motion.div>
@@ -197,26 +197,26 @@ const NutrientAnalysis = () => {
             <div className="row justify-content-center">
                 <div className="col-lg-8">
                     <motion.div 
-                      className="glass-card p-5 shadow-lg border-0" 
+                      className="glass-card p-4 p-sm-5 shadow-lg border-0" 
                       style={{ borderRadius: '30px', background: 'white' }}
                       initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.5, delay: 0.2 }}
                     >
-                        <div className="d-flex align-items-center mb-5">
-                            <div className="bg-success text-white p-4 rounded-circle me-4 shadow-success-sm">
+                        <div className="d-flex flex-column flex-sm-row align-items-center text-center text-sm-start mb-4 mb-sm-5">
+                            <div className="bg-success text-white p-4 rounded-circle me-0 me-sm-4 mb-3 mb-sm-0 shadow-success-sm d-flex align-items-center justify-content-center" style={{ width: '80px', height: '80px' }}>
                                 <Leaf size={32} />
                             </div>
                             <div>
-                                <h3 className="display-6 font-weight-bold mb-0" style={{ color: '#064e3b' }}>Analyze Your Farm</h3>
+                                <h3 className="display-6 font-weight-bold mb-1" style={{ color: '#064e3b' }}>Analyze Your Farm</h3>
                                 <p className="text-muted mb-0 lead">Select your crop and location to generate custom recommendations.</p>
                             </div>
                         </div>
 
-                        <form onSubmit={handleSubmit} className="row g-5">
+                        <form onSubmit={handleSubmit} className="row g-3 g-md-5">
                             <div className="col-md-12">
                                 <label className="form-label font-weight-bold text-success text-uppercase mb-3" style={{ fontSize: '1rem', letterSpacing: '1px' }}>Crop Type</label>
-                                <select className="form-select py-4 rounded-4 shadow-sm border-0 bg-light px-4" name="crop" onChange={handleChange} required value={formData.crop} style={{ fontSize: '1.25rem' }}>
+                                <select className="form-select py-3 py-md-4 rounded-4 shadow-sm border-0 bg-light px-3 px-md-4 select-custom" name="crop" onChange={handleChange} required value={formData.crop}>
                                     <option value="">Select Crop</option>
                                     {cropList.map((c) => (
                                         <option key={c} value={c.toLowerCase()}>{c}</option>
@@ -226,7 +226,7 @@ const NutrientAnalysis = () => {
 
                             <div className="col-md-6">
                                 <label className="form-label font-weight-bold text-success text-uppercase mb-3" style={{ fontSize: '1rem', letterSpacing: '1px' }}>State</label>
-                                <select className="form-select py-4 rounded-4 shadow-sm border-0 bg-light px-4" name="state" onChange={handleStateChange} required value={formData.state} style={{ fontSize: '1.25rem' }}>
+                                <select className="form-select py-3 py-md-4 rounded-4 shadow-sm border-0 bg-light px-3 px-md-4 select-custom" name="state" onChange={handleStateChange} required value={formData.state}>
                                     <option value="">Select State</option>
                                     {Object.keys(stateCityData).sort().map((state) => (
                                         <option key={state} value={state}>{state}</option>
@@ -236,7 +236,7 @@ const NutrientAnalysis = () => {
 
                             <div className="col-md-6">
                                 <label className="form-label font-weight-bold text-success text-uppercase mb-3" style={{ fontSize: '1rem', letterSpacing: '1px' }}>City</label>
-                                <select className="form-select py-4 rounded-4 shadow-sm border-0 bg-light px-4" name="city" onChange={handleChange} required value={formData.city} disabled={!formData.state} style={{ fontSize: '1.25rem' }}>
+                                <select className="form-select py-3 py-md-4 rounded-4 shadow-sm border-0 bg-light px-3 px-md-4 select-custom" name="city" onChange={handleChange} required value={formData.city} disabled={!formData.state}>
                                     <option value="">Select City</option>
                                     {availableCities.map((city) => (
                                         <option key={city} value={city}>{city}</option>
@@ -269,15 +269,15 @@ const NutrientAnalysis = () => {
                     {/* 1. Nutrient Ratio */}
                     {result && (
                         <motion.div 
-                          className="glass-card p-5 mb-5 shadow-sm border-0" 
+                          className="glass-card p-4 p-sm-5 mb-5 shadow-sm border-0" 
                           style={{ borderRadius: '30px', background: 'white' }}
                           initial={{ opacity: 0, y: 30 }}
                           animate={{ opacity: 1, y: 0 }}
                         >
-                            <h3 className="h2 font-weight-bold mb-4 d-flex align-items-center" style={{ color: '#064e3b' }}>
-                                <Leaf className="me-3 text-success" /> Recommended Nutrient Balance (NPK)
+                            <h3 className="h3 h2-sm font-weight-bold mb-4 d-flex flex-column flex-sm-row align-items-center text-center text-sm-start" style={{ color: '#064e3b' }}>
+                                <Leaf className="mb-2 mb-sm-0 me-0 me-sm-3 text-success" /> Recommended Nutrient Balance (NPK)
                             </h3>
-                            <p className="text-muted lead font-weight-bold" style={{ fontSize: '1.3rem', lineHeight: '1.7' }}>
+                            <p className="text-muted lead font-weight-bold text-center text-sm-start" style={{ fontSize: '1.2rem', lineHeight: '1.7' }}>
                                 For optimal growth of <b>{formData.crop}</b> in your region, aim for the following percentages of Nitrogen, Phosphorus, and Potassium in your soil.
                             </p>
                             <div className="row g-4 mt-1 text-center">
@@ -287,7 +287,7 @@ const NutrientAnalysis = () => {
                                   { label: "Potassium (K)", val: result[2] }
                                 ].map((n, i) => (
                                   <div className="col-md-4" key={i}>
-                                      <div className="p-5 rounded-4 border-0 shadow-sm h-100 transition-all hover-up" style={{ background: '#f0fdf4' }}>
+                                      <div className="p-4 p-sm-5 rounded-4 border-0 shadow-sm h-100 transition-all hover-up" style={{ background: '#f0fdf4' }}>
                                           <h4 className="text-uppercase text-muted font-weight-bold mb-4" style={{ fontSize: '1rem', letterSpacing: '2px' }}>{n.label}</h4>
                                           <h2 className="display-3 font-weight-bold mb-0" style={{ color: '#16a34a' }}>{n.val}%</h2>
                                       </div>
@@ -300,19 +300,19 @@ const NutrientAnalysis = () => {
                     {/* 2. Weather Forecast */}
                     {forecast && forecast.length > 0 && (
                         <motion.div 
-                          className="glass-card p-5 shadow-sm border-0" 
+                          className="glass-card p-4 p-sm-5 shadow-sm border-0" 
                           style={{ borderRadius: '30px', background: 'white' }}
                           initial={{ opacity: 0, y: 30 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.2 }}
                         >
-                            <h3 className="display-6 font-weight-bold mb-3 d-flex align-items-center" style={{ color: '#064e3b' }}>
-                                <Wind className="me-3 text-success" /> 5-Day Weather Forecast
+                            <h3 className="h3 h2-sm font-weight-bold mb-3 d-flex flex-column flex-sm-row align-items-center text-center text-sm-start" style={{ color: '#064e3b' }}>
+                                <Wind className="mb-2 mb-sm-0 me-0 me-sm-3 text-success" /> 5-Day Weather Forecast
                             </h3>
-                            <p className="text-muted mb-4 lead font-weight-bold" style={{ fontSize: '1.15rem' }}>
+                            <p className="text-muted mb-4 lead font-weight-bold text-center text-sm-start" style={{ fontSize: '1.1rem' }}>
                                 Real-time weather expectations for <b>{formData.city}</b> to help you time your fertilization and irrigation perfectly.
                             </p>
-                            <div className="d-flex flex-nowrap mt-4 gap-4 py-4 px-2 weather-scroll" style={{ 
+                            <div className="d-flex flex-nowrap mt-4 gap-3 gap-md-4 py-4 px-2 weather-scroll" style={{ 
                                 overflowX: 'auto', 
                                 WebkitOverflowScrolling: 'touch',
                                 scrollbarWidth: 'thin',
@@ -320,7 +320,7 @@ const NutrientAnalysis = () => {
                             }}>
                                 {forecast.map((day, index) => (
                                     <div key={index} className="text-center transition-all hover-up" style={{ flex: '0 0 240px', maxWidth: '240px' }}>
-                                        <div className="p-5 rounded-4 w-100 bg-white shadow-sm border-light h-100 d-flex flex-column" style={{ border: '1px solid #f1f5f9', minHeight: '350px' }}>
+                                        <div className="p-4 p-sm-5 rounded-4 w-100 bg-white shadow-sm border-light h-100 d-flex flex-column" style={{ border: '1px solid #f1f5f9', minHeight: '320px' }}>
                                             <h5 className="font-weight-bold mb-3" style={{ color: '#1a2e05', fontSize: '1.3rem' }}>{day.date}</h5>
                                             <div className="mb-4 mx-auto rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm" style={{ width: '100px', height: '100px', background: '#f0fdf4' }}>
                                                 <img 
@@ -351,6 +351,32 @@ const NutrientAnalysis = () => {
           .weather-scroll::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
           .weather-scroll::-webkit-scrollbar-thumb { background: #16a34a; border-radius: 10px; }
           .weather-scroll::-webkit-scrollbar-thumb:hover { background: #15803d; }
+          .select-custom {
+            font-size: 1rem !important;
+          }
+          
+          @media (max-width: 768px) {
+            .dark-header {
+              padding: 100px 0 60px !important;
+            }
+            .header-title {
+              font-size: 2.2rem !important;
+            }
+            .header-desc {
+              font-size: 1.15rem !important;
+              padding: 0 1rem;
+            }
+            .glass-card {
+              margin-left: 0.25rem;
+              margin-right: 0.25rem;
+            }
+          }
+          
+          @media (min-width: 768px) {
+            .select-custom {
+              font-size: 1.25rem !important;
+            }
+          }
         `}</style>
     </div>
   );

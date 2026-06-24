@@ -40,19 +40,18 @@ const Navbar = () => {
         transition: 'all 0.4s ease'
       }}
     >
-      <div className="container-fluid" style={{ maxWidth: '1450px', padding: '0.3rem 4rem' }}>
+      <div className="container-fluid navbar-container" style={{ maxWidth: '1450px' }}>
         <div className="d-flex align-items-center justify-content-between w-100">
           
           {/* LOGO SECTION */}
           <Link to="/" className="d-flex align-items-center text-decoration-none" style={{ gap: '4px' }}>
             <motion.div whileHover={{ scale: 1.1 }}>
-              <img src={logo} alt="Logo" style={{ width: '55px', height: '55px', objectFit: 'contain' }} />
+              <img src={logo} alt="Logo" className="logo-img" style={{ objectFit: 'contain' }} />
             </motion.div>
-            <span className="h4 mb-0 font-weight-bold" style={{ 
+            <span className="h4 mb-0 font-weight-bold logo-text" style={{ 
               color: '#166534', 
               letterSpacing: '-0.04em', 
               fontWeight: '900',
-              fontSize: '2.1rem',
               fontFamily: "'Outfit', 'Plus Jakarta Sans', sans-serif"
             }}>
               Agri<span style={{ color: '#16a34a' }}>Nex</span>
@@ -141,6 +140,28 @@ const Navbar = () => {
         .nav-link-custom:hover { opacity: 0.8; color: #166534 !important; }
         .font-weight-bold { font-weight: 700; }
         .transition-all { transition: all 0.3s ease; }
+        .navbar-container {
+          padding: 0.3rem 1.25rem !important;
+        }
+        .logo-text {
+          font-size: 1.5rem !important;
+        }
+        .logo-img {
+          width: 40px !important;
+          height: 40px !important;
+        }
+        @media (min-width: 992px) {
+          .navbar-container {
+            padding: 0.3rem 4rem !important;
+          }
+          .logo-text {
+            font-size: 2.1rem !important;
+          }
+          .logo-img {
+            width: 55px !important;
+            height: 55px !important;
+          }
+        }
       `}</style>
     </nav>
   );

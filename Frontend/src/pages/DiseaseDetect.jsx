@@ -73,7 +73,7 @@ const DiseaseDetect = () => {
               alignItems: 'center', justifyContent: 'center'
             }}
           >
-            <div style={{ width: '400px' }}>
+            <div className="loading-lottie-container">
               <Lottie animationData={loadingAnimation} loop={true} />
             </div>
               <motion.div 
@@ -88,7 +88,7 @@ const DiseaseDetect = () => {
         )}
       </AnimatePresence>
 
-        <div className="container py-5 mt-5" style={{ position: 'relative', zIndex: 1 }}>
+        <div className="container py-4 py-sm-5 mt-4 mt-sm-5" style={{ position: 'relative', zIndex: 1 }}>
           {!prediction ? (
             <motion.div 
               initial={{ opacity: 0 }} 
@@ -96,16 +96,16 @@ const DiseaseDetect = () => {
               className="row align-items-center justify-content-center g-5"
             >
             {/* LEFT SIDE: SCAN COMPONENT */}
-            <div className="col-lg-8 pe-lg-5" style={{ marginLeft: '-4rem' }}>
+            <div className="col-lg-8 pe-lg-5 scan-column">
                <motion.div 
                 initial={{ x: -50, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.8 }}
-                className="glass-card p-5 shadow-2xl"
-                style={{ borderRadius: '50px', background: 'white', border: '1px solid rgba(22, 163, 74, 0.1)' }}
+                className="glass-card scan-card p-4 p-md-5 shadow-2xl"
+                style={{ background: 'white', border: '1px solid rgba(22, 163, 74, 0.1)' }}
               >
-                <div className="d-flex align-items-center mb-5 pb-3">
-                   <div className="bg-success text-white p-4 rounded-4 me-4 shadow-lg">
+                <div className="d-flex flex-column flex-sm-row align-items-center align-items-sm-start text-center text-sm-start mb-4 mb-sm-5 pb-3">
+                   <div className="bg-success text-white p-4 rounded-4 me-0 me-sm-4 mb-3 mb-sm-0 shadow-lg d-inline-flex align-items-center justify-content-center">
                       <Microscope size={32} />
                    </div>
                    <div>
@@ -188,7 +188,7 @@ const DiseaseDetect = () => {
                 <motion.div 
                   animate={{ y: [0, -15, 0] }}
                   transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                  style={{ width: '100%', maxWidth: '800px' }}
+                  className="disease-lottie-container"
                 >
                   <Lottie animationData={virusAnimation} loop={true} />
                 </motion.div>
@@ -206,15 +206,15 @@ const DiseaseDetect = () => {
           >
              {/* LEFT SIDE: SCAN RESULT */}
              <div className="col-lg-7">
-              <div className="glass-card p-5 shadow-2xl position-relative overflow-hidden" style={{ borderRadius: '50px', background: 'white' }}>
+              <div className="glass-card result-card p-4 p-md-5 shadow-2xl position-relative overflow-hidden" style={{ background: 'white' }}>
                   <div style={{ position: 'absolute', top: '-10%', right: '-10%', opacity: 0.05 }}><Leaf size={250} /></div>
                   
                   <div className="d-inline-flex align-items-center px-4 py-2 bg-success bg-opacity-10 text-success rounded-pill mb-4 border">
                     <span className="small font-weight-bold">System ConfirmationComplete</span>
                   </div>
                   
-                  <div className="mb-5 d-flex align-items-center p-4 rounded-4 bg-light border-0">
-                    <CheckCircle size={32} className="text-success me-3" />
+                  <div className="mb-5 d-flex flex-column flex-sm-row align-items-center align-items-sm-start text-center text-sm-start p-4 rounded-4 bg-light border-0">
+                    <CheckCircle size={32} className="text-success me-0 me-sm-3 mb-3 mb-sm-0" />
                     <div>
                         <h4 className="font-weight-bold mb-0 text-success">Detection Complete</h4>
                         <p className="text-muted mb-0 small">The specialist scan has analyzed the specimen image with high confidence.</p>
@@ -264,6 +264,44 @@ const DiseaseDetect = () => {
         .prediction-content b, .prediction-content strong { color: #16a34a; font-weight: 800; }
         .cursor-pointer { cursor: pointer; }
         .transition-all { transition: all 0.3s ease; }
+        .scan-column {
+          margin-left: 0 !important;
+        }
+        .scan-card {
+          border-radius: 24px !important;
+        }
+        .result-card {
+          border-radius: 24px !important;
+        }
+        .loading-lottie-container {
+          width: 280px !important;
+        }
+        .disease-lottie-container {
+          width: 250px !important;
+          max-width: 250px !important;
+        }
+        @media (min-width: 576px) {
+          .loading-lottie-container {
+            width: 400px !important;
+          }
+        }
+        @media (min-width: 768px) {
+          .scan-card {
+            border-radius: 50px !important;
+          }
+          .result-card {
+            border-radius: 50px !important;
+          }
+        }
+        @media (min-width: 992px) {
+          .scan-column {
+            margin-left: -4rem !important;
+          }
+          .disease-lottie-container {
+            width: 100% !important;
+            max-width: 800px !important;
+          }
+        }
       `}</style>
     </div>
   );

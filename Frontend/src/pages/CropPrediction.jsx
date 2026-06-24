@@ -131,7 +131,7 @@ const CropPrediction = () => {
               alignItems: 'center', justifyContent: 'center'
             }}
           >
-            <div style={{ width: '400px' }}>
+            <div className="loading-lottie-container">
               <Lottie animationData={loadingAnimation} loop={true} />
             </div>
             <motion.div 
@@ -154,16 +154,16 @@ const CropPrediction = () => {
             className="row align-items-center justify-content-start g-5 py-5"
           >
             {/* LEFT SIDE: FORM */}
-            <div className="col-lg-8" style={{ marginLeft: '-5rem' }}>
+            <div className="col-lg-8 form-column">
               <motion.div 
                 initial={{ x: -50, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.8 }}
-                className="glass-card p-5 p-md-5 shadow-2xl"
-                style={{ borderRadius: '50px', background: 'white', border: '1px solid rgba(22, 163, 74, 0.1)' }}
+                className="glass-card prediction-card p-4 p-md-5 shadow-2xl"
+                style={{ background: 'white', border: '1px solid rgba(22, 163, 74, 0.1)' }}
               >
-                <div className="d-flex align-items-center mb-5">
-                   <div className="bg-success text-white p-4 rounded-4 me-4 shadow-lg">
+                <div className="d-flex flex-column flex-sm-row align-items-center align-items-sm-start text-center text-sm-start mb-4 mb-sm-5">
+                   <div className="bg-success text-white p-4 rounded-4 me-0 me-sm-4 mb-3 mb-sm-0 shadow-lg d-inline-flex align-items-center justify-content-center">
                       <Activity size={32} />
                    </div>
                    <div>
@@ -232,7 +232,7 @@ const CropPrediction = () => {
             </div>
 
             {/* RIGHT SIDE: ANIMATION */}
-            <div className="col-lg-5 order-first order-lg-last" style={{ marginLeft: '-1.5rem' }}>
+            <div className="col-lg-5 order-first order-lg-last animation-column">
               <motion.div 
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -249,7 +249,7 @@ const CropPrediction = () => {
                 <motion.div 
                   animate={{ y: [0, -30, 0] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  style={{ width: '100%', maxWidth: '520px' }}
+                  className="crop-lottie-container"
                 >
                   <Lottie animationData={cornAnimation} loop={true} />
                 </motion.div>
@@ -267,7 +267,7 @@ const CropPrediction = () => {
             className="row justify-content-center py-5"
           >
             <div className="col-md-9 text-center">
-              <div className="glass-card p-5 shadow-2xl position-relative overflow-hidden" style={{ borderRadius: '50px', background: 'white' }}>
+              <div className="glass-card result-card p-4 p-md-5 shadow-2xl position-relative overflow-hidden" style={{ background: 'white' }}>
                   <div style={{ position: 'absolute', top: '-10%', right: '-10%', opacity: 0.05 }}><Leaf size={300} /></div>
                   
                   <div className="mb-4 d-inline-block p-4 rounded-circle bg-success shadow-lg text-white">
@@ -290,11 +290,11 @@ const CropPrediction = () => {
                   
                   <div className="d-flex flex-column flex-md-row justify-content-center gap-3">
                     <button 
-                        className="btn btn-success py-4 px-5 rounded-pill shadow-lg font-weight-bold" 
-                        onClick={() => setPrediction(null)}
-                        style={{ fontSize: '1.2rem' }}
+                      className="btn btn-success py-4 px-5 rounded-pill shadow-lg font-weight-bold" 
+                      onClick={() => setPrediction(null)}
+                      style={{ fontSize: '1.2rem' }}
                     >
-                        New Analysis
+                      New Analysis
                     </button>
                   </div>
               </div>
@@ -308,6 +308,56 @@ const CropPrediction = () => {
         .transform-hover:hover { transform: translateY(-3px) scale(1.02); }
         .letter-spacing-1 { letter-spacing: 0.2em; }
         .shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); }
+        .prediction-card {
+          border-radius: 28px !important;
+        }
+        .result-card {
+          border-radius: 28px !important;
+        }
+        .form-column {
+          margin-left: 0 !important;
+        }
+        .animation-column {
+          margin-left: 0 !important;
+        }
+        .loading-lottie-container {
+          width: 280px !important;
+        }
+        .crop-lottie-container {
+          width: 250px !important;
+          max-width: 250px !important;
+        }
+        @media (max-width: 768px) {
+          .display-2 {
+            font-size: 2.2rem !important;
+          }
+          .display-4 {
+            font-size: 2.0rem !important;
+          }
+        }
+        @media (min-width: 576px) {
+          .loading-lottie-container {
+            width: 400px !important;
+          }
+        }
+        @media (min-width: 992px) {
+          .prediction-card {
+            border-radius: 50px !important;
+          }
+          .result-card {
+            border-radius: 50px !important;
+          }
+          .form-column {
+            margin-left: -5rem !important;
+          }
+          .animation-column {
+            margin-left: -1.5rem !important;
+          }
+          .crop-lottie-container {
+            width: 100% !important;
+            max-width: 520px !important;
+          }
+        }
       `}</style>
     </div>
   );

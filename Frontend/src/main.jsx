@@ -7,6 +7,7 @@ import App from './App';
 import './assets/css/bootstrap.css';      
 import './assets/css/font-awesome.min.css';
 import './assets/css/style.css'; 
+import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

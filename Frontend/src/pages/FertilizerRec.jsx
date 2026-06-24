@@ -52,7 +52,7 @@ const allCrops = [
     { value: "figs", label: "Figs" },
     { value: "frenchbeansfarasbi", label: "French Beans(Farasbi)" },
     { value: "garciniaindicakokam", label: "Garcinia indica(kokam)" },
-    { double: "garlic", label: "Garlic" },
+    { value: "garlic", label: "Garlic" },
     { value: "ginger", label: "Ginger" },
     { value: "gooseberryamla", label: "Gooseberry(Amla)" },
     { value: "grapes", label: "Grapes" },
@@ -177,7 +177,7 @@ const FertilizerRec = () => {
               alignItems: 'center', justifyContent: 'center'
             }}
           >
-            <div style={{ width: '400px' }}>
+            <div className="loading-lottie-container">
               <Lottie animationData={loadingAnimation} loop={true} />
             </div>
             <motion.div 
@@ -192,7 +192,7 @@ const FertilizerRec = () => {
         )}
       </AnimatePresence>
 
-      <div className="container pt-5 mt-5" style={{ position: 'relative', zIndex: 1 }}>
+      <div className="container pt-4 pt-sm-5 mt-4 mt-sm-5" style={{ position: 'relative', zIndex: 1 }}>
         {!recommendation ? (
           <motion.div 
             initial={{ opacity: 0 }} 
@@ -210,7 +210,7 @@ const FertilizerRec = () => {
                 <motion.div 
                   animate={{ y: [0, -15, 0] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  style={{ width: '100%', maxWidth: '700px' }}
+                  className="plant-lottie-container"
                 >
                   <Lottie animationData={plantAnimation} loop={true} style={{ mixBlendMode: 'multiply' }} />
                 </motion.div>
@@ -225,11 +225,11 @@ const FertilizerRec = () => {
                 initial={{ x: 50, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.8 }}
-                className="glass-card p-5 shadow-lg"
-                style={{ borderRadius: '40px', background: 'white', border: '1px solid rgba(22, 163, 74, 0.1)' }}
+                className="glass-card fertilizer-card p-4 p-md-5 shadow-lg"
+                style={{ background: 'white', border: '1px solid rgba(22, 163, 74, 0.1)' }}
               >
-                <div className="d-flex align-items-center mb-5 pb-3">
-                   <div className="bg-success text-white p-4 rounded-4 me-4 shadow-lg">
+                <div className="d-flex flex-column flex-sm-row align-items-center align-items-sm-start text-center text-sm-start mb-4 mb-sm-5 pb-3">
+                   <div className="bg-success text-white p-4 rounded-4 me-0 me-sm-4 mb-3 mb-sm-0 shadow-lg d-inline-flex align-items-center justify-content-center">
                       <Sparkles size={32} />
                    </div>
                    <div>
@@ -321,7 +321,7 @@ const FertilizerRec = () => {
 
             {/* RIGHT SIDE: RECOMMENDATION */}
             <div className="col-lg-7">
-              <div className="glass-card p-5 shadow-2xl position-relative overflow-hidden" style={{ borderRadius: '50px', background: 'white' }}>
+              <div className="glass-card result-card p-4 p-md-5 shadow-2xl position-relative overflow-hidden" style={{ background: 'white' }}>
                   <div style={{ position: 'absolute', top: '-10%', right: '-10%', opacity: 0.05 }}><Leaf size={250} /></div>
                   
                   <div className="d-inline-flex align-items-center px-4 py-2 bg-success bg-opacity-10 text-success rounded-pill mb-4 border">
@@ -331,7 +331,7 @@ const FertilizerRec = () => {
                   
                   <div 
                     className="prediction-content text-start mx-auto" 
-                    style={{ color: '#1a2e05', fontSize: '1.3rem', lineHeight: '1.8' }}
+                    style={{ color: '#1a2e05' }}
                     dangerouslySetInnerHTML={{ __html: recommendation }}
                   ></div>
                   
@@ -357,6 +357,54 @@ const FertilizerRec = () => {
         .shadow-sm-inset { box-shadow: inset 0 2px 4px rgba(0,0,0,0.03); }
         .uppercase-xs { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; }
         .prediction-content b, .prediction-content strong { color: #16a34a; }
+        
+        .fertilizer-card {
+          border-radius: 24px !important;
+        }
+        .result-card {
+          border-radius: 24px !important;
+        }
+        .loading-lottie-container {
+          width: 280px !important;
+        }
+        .prediction-content {
+          font-size: 1.1rem !important;
+          line-height: 1.6 !important;
+        }
+        .plant-lottie-container {
+          width: 250px !important;
+          max-width: 250px !important;
+        }
+        
+        @media (max-width: 768px) {
+          .display-5 {
+            font-size: 2.0rem !important;
+          }
+        }
+        
+        @media (min-width: 576px) {
+          .loading-lottie-container {
+            width: 400px !important;
+          }
+        }
+        @media (min-width: 768px) {
+          .prediction-content {
+            font-size: 1.3rem !important;
+            line-height: 1.8 !important;
+          }
+        }
+        @media (min-width: 992px) {
+          .fertilizer-card {
+            border-radius: 40px !important;
+          }
+          .result-card {
+            border-radius: 50px !important;
+          }
+          .plant-lottie-container {
+            width: 100% !important;
+            max-width: 700px !important;
+          }
+        }
       `}</style>
     </div>
   );
