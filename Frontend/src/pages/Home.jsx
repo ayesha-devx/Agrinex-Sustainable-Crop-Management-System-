@@ -101,46 +101,22 @@ const Home = () => {
                   <span className="text-success font-weight-bold" style={{ fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#14532d' }}>🌿 Intelligent Farming Solutions</span>
                 </div>
 
-                <h1 className="font-weight-bold mb-4" style={{
+                <h1 className="font-weight-bold mb-4 hero-title" style={{
                   color: '#064e3b',
                   lineHeight: 1.1,
                   letterSpacing: '-0.04em',
-                  fontSize: 'clamp(4rem, 8vw, 6.5rem)',
+                  fontSize: 'clamp(2.5rem, 6vw, 5.5rem)',
                   display: 'flex',
                   flexDirection: 'column'
                 }}>
-                  <span style={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap' }}>
-                    Grow 
-                    <svg width="450" height="120" viewBox="0 0 450 120" style={{ display: 'inline-block', verticalAlign: 'baseline', marginLeft: '12px', overflow: 'visible' }}>
-                      <defs>
-                        <linearGradient id="grad-smarter" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="#22c55e"><animate attributeName="offset" values="-1; 0; 1" dur="3s" repeatCount="indefinite" /></stop>
-                          <stop offset="50%" stopColor="#14532d"><animate attributeName="offset" values="0; 1; 2" dur="3s" repeatCount="indefinite" /></stop>
-                          <stop offset="100%" stopColor="#22c55e"><animate attributeName="offset" values="1; 2; 3" dur="3s" repeatCount="indefinite" /></stop>
-                        </linearGradient>
-                      </defs>
-                      <text x="0" y="90" fontSize="100" fontWeight="800" fill="url(#grad-smarter)" letterSpacing="-0.04em">Smarter.</text>
-                    </svg>
-                  </span>
-                  <span style={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap' }}>
-                    Harvest 
-                    <svg width="550" height="120" viewBox="0 0 550 120" style={{ display: 'inline-block', verticalAlign: 'baseline', marginLeft: '12px', overflow: 'visible' }}>
-                      <defs>
-                        <linearGradient id="grad-superior" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="#22c55e"><animate attributeName="offset" values="-1; 0; 1" dur="3s" repeatCount="indefinite" /></stop>
-                          <stop offset="50%" stopColor="#14532d"><animate attributeName="offset" values="0; 1; 2" dur="3s" repeatCount="indefinite" /></stop>
-                          <stop offset="100%" stopColor="#22c55e"><animate attributeName="offset" values="1; 2; 3" dur="3s" repeatCount="indefinite" /></stop>
-                        </linearGradient>
-                      </defs>
-                      <text x="0" y="90" fontSize="100" fontWeight="800" fill="url(#grad-superior)" letterSpacing="-0.04em">Superior.</text>
-                    </svg>
-                  </span>
+                  <span>Grow <span className="animated-gradient-text">Smarter.</span></span>
+                  <span>Harvest <span className="animated-gradient-text">Superior.</span></span>
                 </h1>
 
-                <p className="lead mb-3" style={{ color: '#374151', fontSize: '1.4rem', maxWidth: '750px', lineHeight: 1.6, fontWeight: '500' }}>
+                <p className="lead mb-3 hero-desc" style={{ color: '#374151', fontSize: '1.4rem', maxWidth: '750px', lineHeight: 1.6, fontWeight: '500' }}>
                   Transform your farming with production-grade insights. <br className="d-none d-md-block" /> Precision crop prediction and instant disease detection for the modern sustainable farm.
                 </p>
-                <div className="d-flex flex-nowrap gap-5 pt-2" style={{ color: '#14532d', fontWeight: '700', fontSize: '1.1rem' }}>
+                <div className="d-flex flex-wrap gap-3 gap-md-4 pt-2 hero-features" style={{ color: '#14532d', fontWeight: '700', fontSize: '1.1rem' }}>
                   {[
                     { text: 'Nutrient Analysis' },
                     { text: 'Crop Prediction' },
@@ -153,7 +129,7 @@ const Home = () => {
                       }}>
                         <CheckCircle2 size={16} className="text-success" />
                       </div>
-                      <span style={{ letterSpacing: '-0.01em' }}>{item.text}</span>
+                      <span style={{ letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>{item.text}</span>
                     </div>
                   ))}
                 </div>
@@ -278,7 +254,7 @@ const Home = () => {
             ].map((service, idx) => (
               <div key={idx} className="col-lg-3 col-md-6">
                 <motion.div
-                  className="p-5 d-flex flex-column h-100 transition-all cursor-pointer shadow-hover"
+                  className="p-4 p-sm-5 d-flex flex-column h-100 transition-all cursor-pointer shadow-hover"
                   variants={fadeInUp}
                   whileHover={{ 
                     y: -15, 
@@ -415,7 +391,7 @@ const Home = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
               >
-                <div style={{ width: '100%', maxWidth: '800px', marginLeft: '-180px' }}>
+                <div className="hero-earth-animation" style={{ width: '100%', maxWidth: '800px' }}>
                   <Lottie animationData={greenEarthAnimation} loop={true} />
                 </div>
               </motion.div>
@@ -452,7 +428,7 @@ const Home = () => {
       <section className="py-5 mb-5">
         <div className="container-agrinex py-5">
           <motion.div
-            className="text-center p-5 position-relative overflow-hidden shadow-lg premium-shadow"
+            className="text-center p-4 p-sm-5 position-relative overflow-hidden shadow-lg premium-shadow"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -475,6 +451,45 @@ const Home = () => {
       <style>{`
         .transition-all { transition: all 0.5s ease; }
         .transition-all:hover { transform: translateY(-10px); }
+        .animated-gradient-text {
+          background: linear-gradient(90deg, #22c55e 0%, #14532d 50%, #22c55e 100%);
+          background-size: 200% auto;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: shimmer 4s linear infinite;
+        }
+        @keyframes shimmer {
+          0% { background-position: 0% 0; }
+          100% { background-position: -200% 0; }
+        }
+        
+        /* Mobile responsive adjustments */
+        @media (max-width: 992px) {
+          .hero-section {
+            padding-top: 100px !important;
+            min-height: auto !important;
+            padding-bottom: 40px;
+          }
+          .hero-title {
+            text-align: center;
+            align-items: center;
+          }
+          .hero-desc {
+            text-align: center;
+            font-size: 1.15rem !important;
+            margin-left: auto;
+            margin-right: auto;
+          }
+          .hero-features {
+            justify-content: center !important;
+          }
+        }
+        
+        @media (min-width: 992px) {
+          .hero-earth-animation {
+            margin-left: -180px;
+          }
+        }
       `}</style>
     </div>
   );
