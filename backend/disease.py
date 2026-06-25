@@ -361,7 +361,7 @@ def disease_prediction(test_image):
     
     # If plant-like colors are less than 8% of the image, we classify it as non-plant
     if plant_ratio < 0.08:
-        raise ValueError("Invalid Image: We couldn't detect a plant leaf in the uploaded photo. Please make sure you upload a clear, close-up picture of the affected crop leaf.")
+        raise ValueError("Invalid Image: We couldn't detect a crop leaf in the uploaded photo. Please make sure you upload a clear, close-up picture of the affected crop leaf.")
         
     try:
         # Preprocess using PIL and numpy
